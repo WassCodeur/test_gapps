@@ -36,6 +36,7 @@ async def homepage(body: dict):
             message = 'Good afternoon'
 
     message += ' ' + body["commonEventObject"]["hostApp"]
+    print(body)
     return create_cat_card(message, True)
 
 
