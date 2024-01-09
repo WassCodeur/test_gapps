@@ -26,6 +26,7 @@ async def homepage(gevent: models.GEvent):
     if gevent.commonEventObject.timeZone:
         date = datetime.now(tz=pytz.timezone(
             gevent.commonEventObject.timeZone.id))
+        offset_str = gevent.commonEventObject.timeZone.offset 
         message = 'Good night'
         if 12 > date.hour >= 6:
             message = 'Good morning'
@@ -33,6 +34,9 @@ async def homepage(gevent: models.GEvent):
             message = 'Good afternoon'
 
     message += ' ' + gevent.commonEventObject.hostApp
+    print("Time zone offset:", offset_str)
+    """commonEventObject.timeZone.offse"""
+
 
     return create_cat_card(message, True)
 
