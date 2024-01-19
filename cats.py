@@ -128,11 +128,11 @@ def create_cat_card(text, is_homepage=False):
 
     # Create a button that changes the cat image when pressed.
     # Note: Action parameter keys and values must be strings.
-    # https://gwa.momentz.fr/on_change_cat
-    # .setParameters({'text': text, 'is_homepage': str(is_homepage)})
+    # https://test-gapps.vercel.app/on_change_cat
+    # 
     action = CardService.newAction()  \
-        .setFunctionName("https://cataas.com/cat?type=square") \
-        
+        .setFunctionName("https://test-gapps.vercel.app/on_change_cat") \
+        .setParameters({'text': text, 'is_homepage': str(is_homepage)})
 
     button = CardService.newTextButton()  \
         .setText('Change cat')  \
@@ -246,7 +246,7 @@ def on_gmail_compose(gevent: models.GEvent):
 
     # Create a button that inserts the cat image when pressed.
     action = CardService.newAction()  \
-        .setFunctionName('https://gwa.momentz.fr/on_gmail_insert_cat')
+        .setFunctionName('https://test-gapps.vercel.app/on_gmail_insert_cat')
 
     button = CardService.newTextButton()  \
         .setText('Insert cat')  \
