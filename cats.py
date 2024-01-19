@@ -130,7 +130,7 @@ def create_cat_card(text, is_homepage=False):
     # Note: Action parameter keys and values must be strings.
     # https://gwa.momentz.fr/on_change_cat
     action = CardService.newAction()  \
-        .setFunctionName("https://gwa.momentz.fr/on_change_cat") \
+        .setFunctionName("https://cataas.com/cat?type=square") \
         .setParameters({'text': text, 'is_homepage': str(is_homepage)})
 
     button = CardService.newTextButton()  \
