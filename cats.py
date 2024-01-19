@@ -6,7 +6,7 @@ from urllib.parse import quote
 from gapps import CardService
 from gapps.cardservice import models, utilities as ut
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 import googleapiclient.discovery
 import google.oauth2.credentials
@@ -38,6 +38,7 @@ async def homepage(body: dict):
     message += ' ' + body["commonEventObject"]["hostApp"]
   
     return create_cat_card(message, True)
+    
 
 
 
@@ -127,8 +128,9 @@ def create_cat_card(text, is_homepage=False):
 
     # Create a button that changes the cat image when pressed.
     # Note: Action parameter keys and values must be strings.
+    # https://gwa.momentz.fr/on_change_cat
     action = CardService.newAction()  \
-        .setFunctionName('https://gwa.momentz.fr/on_change_cat') \
+        .setFunctionName('https://github.com/WassCodeur') \
         .setParameters({'text': text, 'is_homepage': str(is_homepage)})
 
     button = CardService.newTextButton()  \
