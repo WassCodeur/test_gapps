@@ -129,9 +129,10 @@ def create_cat_card(text, is_homepage=False):
     # Create a button that changes the cat image when pressed.
     # Note: Action parameter keys and values must be strings.
     # https://gwa.momentz.fr/on_change_cat
+    # .setParameters({'text': text, 'is_homepage': str(is_homepage)})
     action = CardService.newAction()  \
         .setFunctionName("https://cataas.com/cat?type=square") \
-        .setParameters({'text': text, 'is_homepage': str(is_homepage)})
+        
 
     button = CardService.newTextButton()  \
         .setText('Change cat')  \
