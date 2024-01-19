@@ -1,6 +1,6 @@
 """Module to manage fastapi models."""
 
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 
 
@@ -10,10 +10,10 @@ class TimeZone(BaseModel):
 
 
 class CommonEvent(BaseModel):
-    userLocale: str = None
+    userLocale: Optional[str] = None
     hostApp: str
     platform: str
-    timeZone: TimeZone
+    timeZone: Optional[TimeZone] = None
     parameters: dict = {}
     formInputs: dict = {}
 
@@ -25,100 +25,100 @@ class AuthorizationEvent(BaseModel):
 
 
 class DriveItem(BaseModel):
-    id: str = None
-    iconUrl: str = None
-    mimeType: str = None
-    title: str = None
+    id: Optional[str] = None
+    iconUrl: Optional[str] = None
+    mimeType: Optional[str] = None
+    title: Optional[str] = None
     addonHasFileScopePermission: bool = False
 
 
 class DriveEvent(BaseModel):
     selectedItems: List[DriveItem] = []
-    activeCursorItem: DriveItem = None
+    activeCursorItem: Optional[DriveItem] = None
 
 
 class EditorEvent(BaseModel):
     """Docs, Sheets, slides """
-    id: str = None
-    title: str = None
+    id: Optional[str] = None
+    title: Optional[str] = None
     addonHasFileScopePermission: bool = False
 
 
 class GmailEvent(BaseModel):
-    messageId: str = None
-    threadId: str = None
-    accessToken: str = None
+    messageId: Optional[str] = None
+    threadId: Optional[str] = None
+    accessToken: Optional[str] = None
     toRecipients: List[str] = []
     ccRecipients: List[str] = []
     bccRecipients: List[str] = []
 
 
 class Organizer(BaseModel):
-    email: str = None
+    email: Optional[str] = None
 
 
 class Capabilities(BaseModel):
-    canSeeAttendees: bool = None
-    canAddAttendees: bool = None
-    canSeeConferenceData: bool = None
-    canSetConferenceData: bool = None
+    canSeeAttendees: Optional[bool] = None
+    canAddAttendees: Optional[bool] = None
+    canSeeConferenceData: Optional[bool] = None
+    canSetConferenceData: Optional[bool] = None
 
 
 class Attendee(BaseModel):
-    email: str = None
-    optional: bool = None
-    displayName: str = None
-    organizer: bool = None
-    # self: bool = None
-    resource: bool = None
-    responseStatus: str = None
-    comment: str = None
-    additionalGuests: int = None
+    email: Optional[str] = None
+    optional: Optional[bool] = None
+    displayName: Optional[str] = None
+    organizer: Optional[bool] = None
+    # self: Optional[bool] = None
+    resource: Optional[bool] = None
+    responseStatus: Optional[str] = None
+    comment: Optional[str] = None
+    additionalGuests: Optional[int] = None
 
 
 class ConferenceSolution(BaseModel):
-    iconUri: str = None
-    key: dict = None
-    name: str = None
+    iconUri: Optional[str] = None
+    key: Optional[dict] = None
+    name: Optional[str] = None
 
 
 class EntryPoint(BaseModel):
-    accessCode: str = None
+    accessCode: Optional[str] = None
     entryPointFeatures: List[str] = None
-    entryPointType: str = None
-    label: str = None
-    meetingCode: str = None
-    passcode: str = None
-    password: str = None
-    pin: str = None
-    regionCode: str = None
-    uri: str = None
+    entryPointType: Optional[str] = None
+    label: Optional[str] = None
+    meetingCode: Optional[str] = None
+    passcode: Optional[str] = None
+    password: Optional[str] = None
+    pin: Optional[str] = None
+    regionCode: Optional[str] = None
+    uri: Optional[str] = None
 
 
 class ConferenceData(BaseModel):
-    conferenceId: str = None
-    conferenceSolution: ConferenceSolution = None
+    conferenceId: Optional[str] = None
+    conferenceSolution: Optional[ConferenceSolution] = None
     entryPoints: List[EntryPoint] = None
-    notes: str = None
-    parameters: dict = None
+    notes: Optional[str] = None
+    parameters: Optional[dict] = None
 
 
 class CalendarEvent(BaseModel):
-    id: str = None   # the event id
-    recurringEventId: str = None
-    calendarId: str = None
-    organizer: Organizer = None
+    id: Optional[str] = None   # the event id
+    recurringEventId: Optional[str] = None
+    calendarId: Optional[str] = None
+    organizer: Optional[Organizer] = None
     attendees: List[Attendee] = []
-    conferenceData: ConferenceData = None
-    capabilities: Capabilities = None
+    conferenceData: Optional[ConferenceData ]= None
+    capabilities: Optional[Capabilities] = None
 
 
 class GEvent(BaseModel):
     commonEventObject: CommonEvent
     authorizationEventObject: AuthorizationEvent
-    drive: DriveEvent = None
-    docs: EditorEvent = None
-    sheets: EditorEvent = None
-    slides: EditorEvent = None
-    gmail: GmailEvent = None
-    calendar: CalendarEvent = None
+    drive: Optional[DriveEvent] = None
+    docs: Optional[EditorEvent] = None
+    sheets: Optional[EditorEvent] = None
+    slides: Optional[EditorEvent] = None
+    gmail: Optional[GmailEvent] = None
+    calendar: Optional[CalendarEvent] = None
