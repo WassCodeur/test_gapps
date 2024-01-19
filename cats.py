@@ -21,21 +21,21 @@ async def root():
 
 
 @app.post("/homepage", response_class=JSONResponse)
-async def homepage(body: dict):
-    if "commonEventObject" not in body or "timeZone" not in body["commonEventObject"]:
+async def homepage(gevent: models.GEvent):
+    if "commonEventObject" not in gevent or "timeZone" not in gevent["commonEventObject"]:
         raise HTTPException(status_code=422, detail={"detail": "commonEventObject must contain timeZone"})
 
     message = 'Hello'
-    if body["commonEventObject"]["timeZone"]:
+    if gevent["commonEventObject"]["timeZone"]:
         date = datetime.now(tz=pytz.timezone(
-            body["commonEventObject"]["timeZone"]["id"]))
+            gevent["commonEventObject"]["timeZone"]["id"]))
         message = 'Good night'
         if 12 > date.hour >= 6:
             message = 'Good morning'
         elif 18 > date.hour >= 12:
             message = 'Good afternoon'
 
-    message += ' ' + body["commonEventObject"]["hostApp"]
+    message += ' ' + gevent["commonEventObject"]["hostApp"]
   
     return create_cat_card(message, True)
     
@@ -302,13 +302,13 @@ def on_gmail_insert_cat(gevent: models.GEvent):
     imageHtmlContent =   \
         f'<img style="display: block max-height: 300px" src="{imageUrl}"/>'
 
-    draft_action = CardService.newUpdateDraftBodyAction()  \
+    draft_action = CardService.newUpdateDraftgeventAction()  \
         .addUpdateContent(imageHtmlContent,
                           CardService.ContentType.MUTABLE_HTML)  \
-        .setUpdateType(CardService.UpdateDraftBodyType.IN_PLACE_INSERT)
+        .setUpdateType(CardService.UpdateDraftgeventType.IN_PLACE_INSERT)
 
     response = CardService.newUpdateDraftActionResponseBuilder()  \
-        .setUpdateDraftBodyAction(draft_action)  \
+        .setUpdateDraftgeventAction(draft_action)  \
         .build()
 
     return response
