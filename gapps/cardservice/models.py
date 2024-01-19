@@ -13,7 +13,7 @@ class CommonEvent(BaseModel):
     userLocale: str = None
     hostApp: str
     platform: str
-    timeZone: TimeZone = None
+    timeZone: TimeZone
     parameters: dict = {}
     formInputs: dict = {}
 
