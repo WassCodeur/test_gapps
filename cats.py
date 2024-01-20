@@ -44,7 +44,7 @@ async def homepage(gevent: models.GEvent):
 
 @app.post('/on_items_selected', response_class=JSONResponse)
 async def on_drive_items_selected(gevent: models.GEvent):
-    gevent = gevent.dict()
+    
     all_items = gevent["drive"]["selectedItems"]
     all_items = all_items[:5]  # Include at most 5 items in the text.
     print(all_items)
@@ -54,7 +54,9 @@ async def on_drive_items_selected(gevent: models.GEvent):
 
 
 @app.post('/on_change_cat', response_class=JSONResponse)
-async def on_change_cat(gevent: dict):
+async def on_change_cat(gevent: models.GEvent):
+    gevent = gevent.dict()
+
     """Callback for the 'Change cat' button.
 
     Parameters
@@ -176,7 +178,7 @@ def create_cat_card(text, is_homepage=False):
 
 
 @app.post('/on_gmail_message', response_class=JSONResponse)
-def on_gmail_message(gevent: dict):
+def on_gmail_message(gevent: models.GEvent):
     """Callback for rendering the card for a specific Gmail message.
 
     Parameters
