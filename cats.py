@@ -44,7 +44,8 @@ async def homepage(gevent: dict):
 
 @app.post('/on_items_selected', response_class=JSONResponse)
 async def on_drive_items_selected(gevent: models.GEvent):
-    all_items = gevent.drive.selectedItems
+    gevent = gevent.dict()
+    all_items = gevent["drive"]["selectedItems"]
     all_items = all_items[:5]  # Include at most 5 items in the text.
     print(all_items)
 
