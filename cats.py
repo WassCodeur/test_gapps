@@ -74,7 +74,7 @@ async def on_change_cat(gevent: dict):
     #gevent.commonEventObject.parameters['text']
 
     # The isHomepage parameter is passed as a string, so convert to a Boolean.
-    is_homepage = gevent["commonEventObject"]["parameters"]["is_homepage"] == "True"
+    is_homepage = True
    
    
     # Create a new card with the same text.
