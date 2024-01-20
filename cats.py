@@ -175,7 +175,7 @@ def create_cat_card(text, is_homepage=False):
 
 
 @app.post('/on_gmail_message', response_class=JSONResponse)
-def on_gmail_message(gevent: models.GEvent):
+def on_gmail_message(gevent: dict):
     """Callback for rendering the card for a specific Gmail message.
 
     Parameters
@@ -195,7 +195,7 @@ def on_gmail_message(gevent: models.GEvent):
 
     # Get an access token scoped to the current message and use it for GmailApp
     # calls.
-    access_token = gevent.authorizationEventObject.userOAuthToken
+    access_token = gevent["authorizationEventObject"]["userOAuthToken"]
     cred = google.oauth2.credentials.Credentials(access_token)
     service = googleapiclient.discovery.build('gmail', 'v1', credentials=cred)
 
@@ -221,7 +221,7 @@ def on_gmail_message(gevent: models.GEvent):
 
 
 @app.post('/on_gmail_compose', response_class=JSONResponse)
-def on_gmail_compose(gevent: models.GEvent):
+def on_gmail_compose(gevent: dict):
     """Callback for rendering the card for the compose action dialog.
 
     Parameters
