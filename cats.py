@@ -177,7 +177,7 @@ def create_cat_card(text, is_homepage=False):
 
 
 @app.post('/on_gmail_message', response_class=JSONResponse)
-def on_gmail_message(gevent: models.GEvent):
+def on_gmail_message(gevent: dict):
     """Callback for rendering the card for a specific Gmail message.
 
     Parameters
