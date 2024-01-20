@@ -53,8 +53,8 @@ async def on_drive_items_selected(gevent: models.GEvent):
 
 
 @app.post('/on_change_cat', response_class=JSONResponse)
-async def on_change_cat(gevent: models.GEvent):
-    gevent = gevent.dict()
+async def on_change_cat(gevent: dict):
+    
 
     """Callback for the 'Change cat' button.
 
