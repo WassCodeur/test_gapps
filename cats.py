@@ -21,7 +21,7 @@ async def root():
 
 
 @app.post("/homepage", response_class=JSONResponse)
-async def homepage(gevent: models.GEvent):
+async def homepage(gevent: dict):
     
     if "commonEventObject" not in gevent or "timeZone" not in gevent["commonEventObject"]:
         raise HTTPException(status_code=422, detail={"detail": "commonEventObject must contain timeZone"})
@@ -53,7 +53,7 @@ async def on_drive_items_selected(gevent: models.GEvent):
 
 
 @app.post('/on_change_cat', response_class=JSONResponse)
-async def on_change_cat(gevent: models.GEvent):
+async def on_change_cat(gevent: dict):
     
 
     """Callback for the 'Change cat' button.
