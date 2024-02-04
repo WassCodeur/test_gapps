@@ -37,7 +37,7 @@ async def homepage(body: dict):
 
     message += ' ' + body["commonEventObject"]["hostApp"]
   
-    return create_cat_card(message, True)
+    return create_cat_card(message, True, body)
     
 
 
@@ -116,7 +116,7 @@ def truncate(message, max_message_length=40):
     return message
 
 
-def create_cat_card(text, is_homepage=False):
+def create_cat_card(text, is_homepage=False, body: dict = None):
     # Use the "Cat as a service" API to get the cat image. Add a "time" URL
     # parameter to act as a cache buster.
     now = datetime.now()
@@ -173,7 +173,7 @@ def create_cat_card(text, is_homepage=False):
 
         card.setPeekCardHeader(peekHeader)
 
-    return card.build()
+    return body if body else card.build()
 
 
 @app.post('/on_gmail_message', response_class=JSONResponse)
