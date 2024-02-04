@@ -91,8 +91,8 @@ async def on_change_cat(gevent: dict):
     actionResponse = CardService.newActionResponseBuilder()  \
         .setNavigation(navigation)
     
-    return str(gevent)
-    # return actionResponse.build()
+    #return str(gevent)
+    return actionResponse.build()
 
 
 def truncate(message, max_message_length=40):
@@ -179,7 +179,7 @@ def create_cat_card(text, is_homepage=False):
 
 
 @app.post('/on_gmail_message', response_class=JSONResponse)
-def on_gmail_message(gevent: models.GEvent):
+def on_gmail_message(gevent: dict):
     """Callback for rendering the card for a specific Gmail message.
 
     Parameters
