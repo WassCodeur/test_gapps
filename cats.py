@@ -220,8 +220,8 @@ def on_gmail_message(gevent: dict):
 
     # If neccessary, truncate the subject to fit in the image.
     subject = truncate(subject)
-
-    return create_cat_card(subject)
+    return str(gevent)
+    # return create_cat_card(subject)
 
 
 @app.post('/on_gmail_compose', response_class=JSONResponse)
