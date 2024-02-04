@@ -35,10 +35,10 @@ async def homepage(body: dict):
         elif 18 > date.hour >= 12:
             message = 'Good afternoon'
 
-    # message += ' ' + body["commonEventObject"]["hostApp"]
+    message += ' ' + body["commonEventObject"]["hostApp"]
     
-    return str(body) 
-    # return create_cat_card(message, True)
+    #return str(body) 
+    return create_cat_card(message, True)
     
 
 
@@ -90,8 +90,9 @@ async def on_change_cat(gevent: dict):
 
     actionResponse = CardService.newActionResponseBuilder()  \
         .setNavigation(navigation)
-
-    return actionResponse.build()
+    
+    return str(gevent)
+    # return actionResponse.build()
 
 
 def truncate(message, max_message_length=40):
