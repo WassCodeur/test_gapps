@@ -54,7 +54,7 @@ async def on_drive_items_selected(gevent: models.GEvent):
 
 
 @app.post('/on_change_cat', response_class=JSONResponse)
-async def on_change_cat(gevent: dict):
+async def on_change_cat(gevent: models.GEvent):
     
 
     """Callback for the 'Change cat' button.
@@ -91,8 +91,8 @@ async def on_change_cat(gevent: dict):
     actionResponse = CardService.newActionResponseBuilder()  \
         .setNavigation(navigation)
     
-    return str(gevent)
-    #return actionResponse.build()
+    
+    return actionResponse.build()
 
 
 def truncate(message, max_message_length=40):
@@ -220,8 +220,7 @@ def on_gmail_message(gevent: models.GEvent):
 
     # If neccessary, truncate the subject to fit in the image.
     subject = truncate(subject)
-    return str(gevent)
-    # return create_cat_card(subject, False)
+    return create_cat_card(subject, False)
 
 
 @app.post('/on_gmail_compose', response_class=JSONResponse)
