@@ -35,9 +35,9 @@ async def homepage(body: dict):
         elif 18 > date.hour >= 12:
             message = 'Good afternoon'
 
-    message += ' ' + body["commonEventObject"]["hostApp"]
+    # message += ' ' + body["commonEventObject"]["hostApp"]
     
-    return message
+    return str(body) 
     # return create_cat_card(message, True)
     
 
