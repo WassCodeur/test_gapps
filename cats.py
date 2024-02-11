@@ -47,6 +47,7 @@ async def homepage(gevent: models.GEvent):
 
 @app.post('/on_items_selected', response_class=JSONResponse)
 async def on_drive_items_selected(gevent: models.GEvent):
+    gevent = gevent.dict()
     all_items = gevent.drive.selectedItems
     all_items = all_items[:5]  # Include at most 5 items in the text.
     print(all_items)
@@ -57,8 +58,6 @@ async def on_drive_items_selected(gevent: models.GEvent):
 
 @app.post('/on_change_cat', response_class=JSONResponse)
 async def on_change_cat(gevent: models.GEvent):
-    
-
     """Callback for the 'Change cat' button.
 
     Parameters
@@ -75,6 +74,7 @@ async def on_change_cat(gevent: models.GEvent):
     """
     # Get the text that was shown in the current cat image. This was passed as
     # a parameter on the Action set for the button.
+    gevent = gevent.dict()
     text =  str(gevent["commonEventObject"]["parameters"]["text"])
     #gevent.commonEventObject.parameters['text']
 
@@ -201,6 +201,7 @@ def on_gmail_message(gevent: models.GEvent):
 
     # Get an access token scoped to the current message and use it for GmailApp
     # calls.
+    gevent = gevent.dict()
     access_token = gevent.authorizationEventObject.userOAuthToken
     cred = google.oauth2.credentials.Credentials(access_token)
     service = googleapiclient.discovery.build('gmail', 'v1', credentials=cred)
@@ -241,6 +242,7 @@ def on_gmail_compose(gevent: models.GEvent):
         The card to show to the user.
 
     """
+    gevent = gevent.dict()
     header = CardService.newCardHeader()  \
         .setTitle('Insert cat')  \
         .setSubtitle('Add a custom cat image to your email message.')
@@ -291,6 +293,7 @@ def on_gmail_insert_cat(gevent: models.GEvent):
 
     """
     # Get the text that was entered by the user.
+    gevent = gevent.dict()
     form_inputs = gevent.commonEventObject.formInputs
     text = ut.get_form_value(form_inputs, 'text')
     text = text[0] if len(text) else ''
@@ -338,6 +341,7 @@ def on_calendar_event_open(gevent: models.GEvent):
 
     """
     # Get the ID of the Calendar and the event
+    gevent = gevent.dict()
     calendar_id = gevent.calendar.calendarId
     event_id = gevent.calendar.id
 
