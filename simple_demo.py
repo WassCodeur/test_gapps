@@ -21,7 +21,7 @@ async def homepage(gevent: models.GEvent):
     email = decode_email(gevent.authorizationEventObject.userIdToken)
 
     page = build_cards(email)
-    return page
+    return gevent
 
 
 def build_cards(email):
