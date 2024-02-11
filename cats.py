@@ -23,6 +23,7 @@ async def root():
 
 @app.post("/homepage", response_class=JSONResponse)
 async def homepage(gevent: models.GEvent):
+    gevent = gevent.dict()
     if "commonEventObject" not in gevent or "timeZone" not in gevent["commonEventObject"]:
         raise HTTPException(status_code=422, detail={"detail": "commonEventObject must contain timeZone"})
 
