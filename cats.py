@@ -4,7 +4,8 @@ import pytz
 from urllib.parse import quote
 
 from gapps import CardService
-from gapps.cardservice import models, utilities as ut
+from gapps.cardservice import models 
+from gapps.cardservice import utilities as ut
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
@@ -21,23 +22,23 @@ async def root():
 
 
 @app.post("/homepage", response_class=JSONResponse)
-async def homepage(body: dict):
-    if "commonEventObject" not in body or "timeZone" not in body["commonEventObject"]:
+async def homepage(gevent: models.GEvent):
+    if "commonEventObject" not in gevent or "timeZone" not in gevent["commonEventObject"]:
         raise HTTPException(status_code=422, detail={"detail": "commonEventObject must contain timeZone"})
 
     message = 'Hello'
-    if body["commonEventObject"]["timeZone"]:
+    if gevent["commonEventObject"]["timeZone"]:
         date = datetime.now(tz=pytz.timezone(
-            body["commonEventObject"]["timeZone"]["id"]))
+            gevent["commonEventObject"]["timeZone"]["id"]))
         message = 'Good night'
         if 12 > date.hour >= 6:
             message = 'Good morning'
         elif 18 > date.hour >= 12:
             message = 'Good afternoon'
 
-    message += ' ' + body["commonEventObject"]["hostApp"]
+    message += ' ' + gevent["commonEventObject"]["hostApp"]
     
-    #return str(body) 
+    #return str(gevent) 
     return create_cat_card(message, True)
     
 
@@ -54,7 +55,7 @@ async def on_drive_items_selected(gevent: models.GEvent):
 
 
 @app.post('/on_change_cat', response_class=JSONResponse)
-async def on_change_cat(gevent: dict):
+async def on_change_cat(gevent: models.GEvent):
     
 
     """Callback for the 'Change cat' button.
@@ -224,7 +225,7 @@ def on_gmail_message(gevent: models.GEvent):
 
 
 @app.post('/on_gmail_compose', response_class=JSONResponse)
-def on_gmail_compose(gevent: dict):
+def on_gmail_compose(gevent: models.GEvent):
     """Callback for rendering the card for the compose action dialog.
 
     Parameters
