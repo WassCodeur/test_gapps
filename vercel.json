@@ -1,14 +1,14 @@
 {
     "builds": [
         {
-            "src": "simple_demo.py",
+            "src": "card_builder_templates.py",
             "use": "@vercel/python"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "simple_demo.py"
+            "dest": "card_builder_templates.py"
         }
     ]
 }
