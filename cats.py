@@ -42,8 +42,8 @@ async def homepage(gevent: models.GEvent):
 
     message += ' ' + gevent["commonEventObject"]["hostApp"]
     
-    #return str(gevent)
-    return create_cat_card(message, True)
+    return str(gevent)
+    # return create_cat_card(message, True)
     
 
 
