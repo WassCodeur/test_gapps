@@ -4,10 +4,9 @@ import pytz
 from urllib.parse import quote
 
 from gapps import CardService
-import gapps
 from gapps.cardservice import models, utilities as ut
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 import googleapiclient.discovery
 import google.oauth2.credentials
@@ -18,8 +17,7 @@ app = FastAPI(title="Cats example")
 
 @app.get("/")
 async def root():
-    # return {"message": "Welcome to Cats App example"}
-    return {"message": f"Welcome to Simple Demo App example (gapps v{gapps.__version__})"}
+    return {"message": "Welcome to Cats App example"}
 
 
 @app.post("/homepage", response_class=JSONResponse)
@@ -37,11 +35,10 @@ async def homepage(gevent: models.GEvent):
     message += ' ' + gevent.commonEventObject.hostApp
 
     return create_cat_card(message, True)
-    
+
 
 @app.post('/on_items_selected', response_class=JSONResponse)
 async def on_drive_items_selected(gevent: models.GEvent):
-    
     all_items = gevent.drive.selectedItems
     all_items = all_items[:5]  # Include at most 5 items in the text.
     print(all_items)
@@ -68,14 +65,11 @@ async def on_change_cat(gevent: models.GEvent):
     """
     # Get the text that was shown in the current cat image. This was passed as
     # a parameter on the Action set for the button.
-    
-    text =  str(gevent["commonEventObject"]["parameters"]["text"])
-    #gevent.commonEventObject.parameters['text']
+    text = gevent.commonEventObject.parameters['text']
 
     # The isHomepage parameter is passed as a string, so convert to a Boolean.
-    is_homepage = gevent["commonEventObject"]["parameters"]["is_homepage"]
-   
-   
+    is_homepage = gevent.commonEventObject.parameters['is_homepage'] == 'True'
+
     # Create a new card with the same text.
     card = create_cat_card(text, is_homepage)
 
@@ -86,8 +80,7 @@ async def on_change_cat(gevent: models.GEvent):
 
     actionResponse = CardService.newActionResponseBuilder()  \
         .setNavigation(navigation)
-    
-    
+
     return actionResponse.build()
 
 
@@ -130,10 +123,8 @@ def create_cat_card(text, is_homepage=False):
 
     # Create a button that changes the cat image when pressed.
     # Note: Action parameter keys and values must be strings.
-    # https://test-gapps.vercel.app/on_change_cat
-    # 
     action = CardService.newAction()  \
-        .setFunctionName("https://test-gapps.vercel.app/on_change_cat") \
+        .setFunctionName('https://gwa.momentz.fr/on_change_cat') \
         .setParameters({'text': text, 'is_homepage': str(is_homepage)})
 
     button = CardService.newTextButton()  \
@@ -195,7 +186,6 @@ def on_gmail_message(gevent: models.GEvent):
 
     # Get an access token scoped to the current message and use it for GmailApp
     # calls.
-    
     access_token = gevent.authorizationEventObject.userOAuthToken
     cred = google.oauth2.credentials.Credentials(access_token)
     service = googleapiclient.discovery.build('gmail', 'v1', credentials=cred)
@@ -217,7 +207,8 @@ def on_gmail_message(gevent: models.GEvent):
 
     # If neccessary, truncate the subject to fit in the image.
     subject = truncate(subject)
-    return create_cat_card(subject, False)
+
+    return create_cat_card(subject)
 
 
 @app.post('/on_gmail_compose', response_class=JSONResponse)
@@ -236,7 +227,6 @@ def on_gmail_compose(gevent: models.GEvent):
         The card to show to the user.
 
     """
-    
     header = CardService.newCardHeader()  \
         .setTitle('Insert cat')  \
         .setSubtitle('Add a custom cat image to your email message.')
@@ -249,7 +239,7 @@ def on_gmail_compose(gevent: models.GEvent):
 
     # Create a button that inserts the cat image when pressed.
     action = CardService.newAction()  \
-        .setFunctionName('https://test-gapps.vercel.app/on_gmail_insert_cat')
+        .setFunctionName('https://gwa.momentz.fr/on_gmail_insert_cat')
 
     button = CardService.newTextButton()  \
         .setText('Insert cat')  \
@@ -287,7 +277,6 @@ def on_gmail_insert_cat(gevent: models.GEvent):
 
     """
     # Get the text that was entered by the user.
-    
     form_inputs = gevent.commonEventObject.formInputs
     text = ut.get_form_value(form_inputs, 'text')
     text = text[0] if len(text) else ''
@@ -306,13 +295,13 @@ def on_gmail_insert_cat(gevent: models.GEvent):
     imageHtmlContent =   \
         f'<img style="display: block max-height: 300px" src="{imageUrl}"/>'
 
-    draft_action = CardService.newUpdateDraftgeventAction()  \
+    draft_action = CardService.newUpdateDraftBodyAction()  \
         .addUpdateContent(imageHtmlContent,
                           CardService.ContentType.MUTABLE_HTML)  \
-        .setUpdateType(CardService.UpdateDraftgeventType.IN_PLACE_INSERT)
+        .setUpdateType(CardService.UpdateDraftBodyType.IN_PLACE_INSERT)
 
     response = CardService.newUpdateDraftActionResponseBuilder()  \
-        .setUpdateDraftgeventAction(draft_action)  \
+        .setUpdateDraftBodyAction(draft_action)  \
         .build()
 
     return response
@@ -335,7 +324,6 @@ def on_calendar_event_open(gevent: models.GEvent):
 
     """
     # Get the ID of the Calendar and the event
-    
     calendar_id = gevent.calendar.calendarId
     event_id = gevent.calendar.id
 
