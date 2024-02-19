@@ -4,8 +4,7 @@ import pytz
 from urllib.parse import quote
 
 from gapps import CardService
-from gapps.cardservice import models 
-from gapps.cardservice import utilities as ut
+from gapps.cardservice import models, utilities as ut
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse

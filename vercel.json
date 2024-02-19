@@ -1,14 +1,14 @@
 {
     "builds": [
         {
-            "src": "cats.py",
+            "src": "card_builder_templates.py",
             "use": "@vercel/python"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "cats.py"
+            "dest": "card_builder_templates.py"
         }
     ]
 }
