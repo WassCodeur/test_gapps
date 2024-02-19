@@ -4,6 +4,7 @@ import pytz
 from urllib.parse import quote
 
 from gapps import CardService
+import gapps
 from gapps.cardservice import models, utilities as ut
 
 from fastapi import FastAPI, HTTPException
@@ -17,7 +18,8 @@ app = FastAPI(title="Cats example")
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to Cats App example"}
+    # return {"message": "Welcome to Cats App example"}
+    return {"message": f"Welcome to Simple Demo App example (gapps v{gapps.__version__})"}
 
 
 @app.post("/homepage", response_class=JSONResponse)
@@ -27,7 +29,9 @@ async def homepage(gevent: models.GEvent):
         raise HTTPException(status_code=422, detail={"detail": "commonEventObject must contain timeZone"})
 
     message = 'Hello'
+    
     if gevent["commonEventObject"]["timeZone"]:
+
         date = datetime.now(tz=pytz.timezone(
             gevent["commonEventObject"]["timeZone"]["id"]))
         message = 'Good night'
@@ -38,7 +42,7 @@ async def homepage(gevent: models.GEvent):
 
     message += ' ' + gevent["commonEventObject"]["hostApp"]
     
-    #return str(gevent) 
+    #return str(gevent)
     return create_cat_card(message, True)
     
 
