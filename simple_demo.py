@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
 
-app = FastAPI(title="Cats example")
+app = FastAPI(title="Cards example")
 
 
 @app.get("/")
