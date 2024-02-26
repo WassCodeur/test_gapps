@@ -1,1 +1,3 @@
 git+https://github.com/skoudoro/gapps.git
+fastapi==0.109.0
+
